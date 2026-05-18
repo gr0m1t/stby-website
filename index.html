@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>STBY — Professional IP Cue Light System for Live Events</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Barlow+Condensed:ital,wght@0,300;0,600;0,900;1,300&family=Barlow:wght@300;400;500&display=swap');
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg:      #080808;
+    --surface: #111;
+    --panel:   #161616;
+    --border:  #222;
+    --text:    #e0e0e0;
+    --dim:     #666;
+    --accent:  #ff6b00;
+    --go:      #00e040;
+    --standby: #ff3800;
+    --confirm: #0088ff;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg); color: var(--text);
+    font-family: 'Barlow', sans-serif; font-weight: 300;
+    overflow-x: hidden;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 40px; height: 60px;
+    background: rgba(8,8,8,0.9); backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+  }
+  .nav-logo { display: flex; align-items: center; gap: 14px; text-decoration: none; }
+  .nav-stby {
+    font-family: 'Share Tech Mono', monospace; font-size: 15px; color: var(--accent);
+    border: 1.5px solid var(--accent); border-radius: 4px; padding: 4px 10px;
+  }
+  .nav-brand { font-family: 'Barlow Condensed', sans-serif; font-size: 14px; font-weight: 600; color: var(--accent); letter-spacing: 3px; text-transform: uppercase; }
+  .nav-links { display: flex; align-items: center; gap: 32px; }
+  .nav-links a { font-size: 13px; font-weight: 500; color: var(--dim); text-decoration: none; letter-spacing: 1px; text-transform: uppercase; transition: color 0.2s; }
+  .nav-links a:hover { color: var(--text); }
+  .nav-cta {
+    font-family: 'Barlow Condensed', sans-serif; font-size: 14px; font-weight: 900;
+    letter-spacing: 2px; text-transform: uppercase; background: var(--accent);
+    color: #000; border: none; padding: 9px 22px; border-radius: 4px;
+    cursor: pointer; text-decoration: none; transition: filter 0.2s;
+  }
+  .nav-cta:hover { filter: brightness(1.15); }
+
+  /* ── HERO ── */
+  #hero {
+    min-height: 100vh; display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    padding: 120px 40px 80px; text-align: center; position: relative; overflow: hidden;
+  }
+
+  /* Animated grid background */
+  #hero::before {
+    content: '';
+    position: absolute; inset: 0;
+    background-image:
+      linear-gradient(rgba(255,107,0,0.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,107,0,0.04) 1px, transparent 1px);
+    background-size: 60px 60px;
+    animation: gridScroll 20s linear infinite;
+  }
+  @keyframes gridScroll { from { background-position: 0 0; } to { background-position: 60px 60px; } }
+
+  /* Glow */
+  #hero::after {
+    content: '';
+    position: absolute; top: 20%; left: 50%; transform: translateX(-50%);
+    width: 600px; height: 300px;
+    background: radial-gradient(ellipse, rgba(255,107,0,0.12) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .hero-eyebrow {
+    font-family: 'Share Tech Mono', monospace; font-size: 12px;
+    color: var(--accent); letter-spacing: 4px; text-transform: uppercase;
+    margin-bottom: 24px; position: relative; z-index: 1;
+    animation: fadeUp 0.8s ease both;
+  }
+
+  .hero-logo {
+    display: flex; align-items: center; justify-content: center;
+    gap: 20px; margin-bottom: 32px; position: relative; z-index: 1;
+    animation: fadeUp 0.8s 0.1s ease both;
+  }
+  .hero-stby {
+    font-family: 'Share Tech Mono', monospace; font-size: 48px; color: var(--accent);
+    border: 3px solid var(--accent); border-radius: 8px; padding: 10px 24px;
+    box-shadow: 0 0 40px rgba(255,107,0,0.2), inset 0 0 40px rgba(255,107,0,0.05);
+  }
+
+  h1 {
+    font-family: 'Barlow Condensed', sans-serif; font-size: clamp(36px, 6vw, 72px);
+    font-weight: 900; line-height: 1; letter-spacing: -1px;
+    color: var(--text); margin-bottom: 24px;
+    position: relative; z-index: 1;
+    animation: fadeUp 0.8s 0.2s ease both;
+  }
+  h1 em { color: var(--accent); font-style: normal; }
+
+  .hero-sub {
+    font-size: clamp(16px, 2vw, 20px); color: var(--dim); max-width: 560px;
+    line-height: 1.6; margin-bottom: 48px;
+    position: relative; z-index: 1;
+    animation: fadeUp 0.8s 0.3s ease both;
+  }
+
+  .hero-btns {
+    display: flex; gap: 16px; flex-wrap: wrap; justify-content: center;
+    position: relative; z-index: 1;
+    animation: fadeUp 0.8s 0.4s ease both;
+  }
+  .btn-primary {
+    font-family: 'Barlow Condensed', sans-serif; font-size: 18px; font-weight: 900;
+    letter-spacing: 2px; text-transform: uppercase; background: var(--accent);
+    color: #000; border: none; padding: 16px 36px; border-radius: 6px;
+    cursor: pointer; text-decoration: none; transition: all 0.2s;
+  }
+  .btn-primary:hover { filter: brightness(1.15); transform: translateY(-1px); }
+  .btn-secondary {
+    font-family: 'Barlow Condensed', sans-serif; font-size: 18px; font-weight: 600;
+    letter-spacing: 2px; text-transform: uppercase; background: none;
+    color: var(--dim); border: 1px solid var(--border); padding: 16px 36px;
+    border-radius: 6px; cursor: pointer; text-decoration: none; transition: all 0.2s;
+  }
+  .btn-secondary:hover { border-color: var(--dim); color: var(--text); }
+
+  .hero-scroll {
+    position: absolute; bottom: 40px; left: 50%; transform: translateX(-50%);
+    font-family: 'Share Tech Mono', monospace; font-size: 11px; color: var(--dim);
+    letter-spacing: 3px; text-transform: uppercase; z-index: 1;
+    animation: bounce 2s ease-in-out infinite;
+  }
+  @keyframes bounce { 0%,100%{transform:translateX(-50%) translateY(0)} 50%{transform:translateX(-50%) translateY(6px)} }
+
+  @keyframes fadeUp { from{opacity:0;transform:translateY(20px)} to{opacity:1;transform:translateY(0)} }
+
+  /* ── SECTIONS ── */
+  section { padding: 100px 40px; max-width: 1100px; margin: 0 auto; }
+  .section-label {
+    font-family: 'Share Tech Mono', monospace; font-size: 11px;
+    color: var(--accent); letter-spacing: 4px; text-transform: uppercase; margin-bottom: 16px;
+  }
+  h2 {
+    font-family: 'Barlow Condensed', sans-serif; font-size: clamp(32px, 4vw, 52px);
+    font-weight: 900; letter-spacing: -0.5px; margin-bottom: 16px; line-height: 1;
+  }
+  .section-sub { font-size: 17px; color: var(--dim); max-width: 540px; line-height: 1.7; margin-bottom: 60px; }
+
+  /* ── FEATURES ── */
+  .features-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 2px; background: var(--border); border: 1px solid var(--border); border-radius: 10px; overflow: hidden; }
+  .feature {
+    background: var(--panel); padding: 36px 32px;
+    transition: background 0.2s;
+  }
+  .feature:hover { background: #1a1a1a; }
+  .feature-icon { font-size: 28px; margin-bottom: 16px; }
+  .feature h3 { font-family: 'Barlow Condensed', sans-serif; font-size: 22px; font-weight: 900; letter-spacing: 0.5px; margin-bottom: 10px; color: var(--text); }
+  .feature p { font-size: 14px; color: var(--dim); line-height: 1.7; }
+
+  /* ── HOW IT WORKS ── */
+  #how { background: var(--surface); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); padding: 100px 40px; }
+  #how > div { max-width: 1100px; margin: 0 auto; }
+  .steps { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 40px; margin-top: 60px; }
+  .step { position: relative; }
+  .step-num {
+    font-family: 'Share Tech Mono', monospace; font-size: 48px; color: var(--border);
+    line-height: 1; margin-bottom: 16px;
+  }
+  .step h3 { font-family: 'Barlow Condensed', sans-serif; font-size: 20px; font-weight: 900; letter-spacing: 1px; margin-bottom: 8px; }
+  .step p { font-size: 14px; color: var(--dim); line-height: 1.7; }
+
+  /* ── INTERFACE PREVIEW ── */
+  .interface-preview {
+    background: var(--panel); border: 1px solid var(--border); border-radius: 12px;
+    overflow: hidden; margin-top: 60px;
+  }
+  .preview-bar {
+    background: #080808; border-bottom: 1px solid var(--border);
+    padding: 12px 20px; display: flex; align-items: center; gap: 12px;
+  }
+  .preview-dot { width: 12px; height: 12px; border-radius: 50%; }
+  .preview-title {
+    flex: 1; text-align: center; font-family: 'Share Tech Mono', monospace;
+    font-size: 12px; color: var(--dim); letter-spacing: 2px;
+  }
+  .preview-body { padding: 20px; display: grid; grid-template-columns: 280px 1fr; gap: 20px; min-height: 400px; }
+  .preview-left { border-right: 1px solid var(--border); padding-right: 20px; }
+  .preview-section-label { font-family: 'Share Tech Mono', monospace; font-size: 10px; color: var(--dim); letter-spacing: 3px; text-transform: uppercase; margin-bottom: 12px; }
+  .preview-card { background: #1a1a1a; border: 1px solid var(--border); border-radius: 6px; overflow: hidden; margin-bottom: 8px; }
+  .preview-strip { height: 4px; }
+  .preview-card-inner { padding: 10px 12px; display: flex; align-items: center; justify-content: space-between; }
+  .preview-card-label { font-family: 'Share Tech Mono', monospace; font-size: 13px; }
+  .preview-badge { font-size: 9px; letter-spacing: 1px; padding: 2px 6px; border-radius: 2px; }
+  .preview-btns { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1px; background: var(--border); }
+  .preview-btn { padding: 8px; text-align: center; font-size: 10px; font-weight: 900; letter-spacing: 1px; }
+
+  .preview-right { display: flex; flex-direction: column; gap: 12px; }
+  .preview-log { font-family: 'Share Tech Mono', monospace; font-size: 11px; line-height: 2; }
+  .log-row { display: grid; grid-template-columns: 60px 70px 1fr; gap: 8px; border-bottom: 1px solid rgba(255,255,255,0.03); padding: 3px 0; }
+  .log-time { color: #333; }
+  .log-success { color: var(--go); }
+  .log-cue { color: var(--accent); }
+  .log-connect { color: var(--go); }
+  .log-osc { color: var(--confirm); }
+  .log-confirm { color: #ffd000; }
+  .log-info { color: var(--dim); }
+
+  /* ── PRICING ── */
+  .pricing-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 24px; margin-top: 60px; }
+  .pricing-card {
+    background: var(--panel); border: 1px solid var(--border); border-radius: 12px;
+    padding: 40px 36px; position: relative; transition: border-color 0.2s;
+  }
+  .pricing-card:hover { border-color: #333; }
+  .pricing-card.featured { border-color: var(--accent); }
+  .pricing-featured-badge {
+    position: absolute; top: -12px; left: 50%; transform: translateX(-50%);
+    background: var(--accent); color: #000; font-family: 'Barlow Condensed', sans-serif;
+    font-size: 11px; font-weight: 900; letter-spacing: 2px; text-transform: uppercase;
+    padding: 4px 16px; border-radius: 20px;
+  }
+  .pricing-name { font-family: 'Barlow Condensed', sans-serif; font-size: 14px; font-weight: 600; letter-spacing: 3px; text-transform: uppercase; color: var(--dim); margin-bottom: 16px; }
+  .pricing-price { font-family: 'Barlow Condensed', sans-serif; font-size: 52px; font-weight: 900; line-height: 1; margin-bottom: 4px; }
+  .pricing-period { font-size: 13px; color: var(--dim); margin-bottom: 32px; }
+  .pricing-features { list-style: none; display: flex; flex-direction: column; gap: 12px; margin-bottom: 36px; }
+  .pricing-features li { font-size: 14px; color: var(--dim); display: flex; gap: 10px; align-items: baseline; }
+  .pricing-features li::before { content: '✓'; color: var(--go); font-size: 12px; flex-shrink: 0; }
+  .pricing-features li.unavail { opacity: 0.35; }
+  .pricing-features li.unavail::before { content: '—'; color: var(--dim); }
+  .pricing-btn {
+    display: block; width: 100%; text-align: center;
+    font-family: 'Barlow Condensed', sans-serif; font-size: 16px; font-weight: 900;
+    letter-spacing: 2px; text-transform: uppercase; padding: 14px;
+    border-radius: 6px; cursor: pointer; text-decoration: none; transition: all 0.2s;
+    border: none;
+  }
+  .pricing-btn-free { background: var(--panel); color: var(--dim); border: 1px solid var(--border); }
+  .pricing-btn-free:hover { border-color: var(--dim); color: var(--text); }
+  .pricing-btn-paid { background: var(--accent); color: #000; }
+  .pricing-btn-paid:hover { filter: brightness(1.1); }
+  .pricing-btn-mobile { background: var(--panel); color: var(--text); border: 1px solid var(--border); }
+  .pricing-btn-mobile:hover { border-color: var(--accent); color: var(--accent); }
+
+  /* ── FOOTER ── */
+  footer {
+    border-top: 1px solid var(--border); padding: 60px 40px;
+    display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 24px;
+  }
+  .footer-logo { display: flex; align-items: center; gap: 12px; }
+  .footer-stby { font-family: 'Share Tech Mono', monospace; font-size: 13px; color: var(--accent); border: 1px solid var(--accent); border-radius: 3px; padding: 3px 8px; }
+  .footer-links { display: flex; gap: 32px; }
+  .footer-links a { font-size: 13px; color: var(--dim); text-decoration: none; letter-spacing: 1px; text-transform: uppercase; transition: color 0.2s; }
+  .footer-links a:hover { color: var(--text); }
+  .footer-copy { font-size: 12px; color: #333; }
+
+  /* ── DIVIDER ── */
+  .full-bleed { max-width: none; border-top: 1px solid var(--border); }
+
+  /* ── OSC SECTION ── */
+  .osc-block {
+    background: var(--panel); border: 1px solid var(--border); border-radius: 8px;
+    padding: 28px 32px; font-family: 'Share Tech Mono', monospace; font-size: 13px;
+    color: var(--confirm); line-height: 2.2; margin-top: 32px;
+  }
+  .osc-comment { color: var(--dim); }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="nav-logo">
+    <span class="nav-stby">STBY</span>
+    <span class="nav-brand">Show Control</span>
+  </a>
+  <div class="nav-links">
+    <a href="#features">Features</a>
+    <a href="#how">How It Works</a>
+    <a href="#pricing">Pricing</a>
+    <a href="mailto:hello@getstby.app">Support</a>
+    <a href="#pricing" class="nav-cta">Get STBY</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<div id="hero">
+  <div class="hero-eyebrow">Show Control Software</div>
+  <div class="hero-logo">
+    <span class="hero-stby">STBY</span>
+  </div>
+  <h1>Professional <em>IP cue light</em><br>system for live events</h1>
+  <p class="hero-sub">Replace your hardware cue lights with a network-based system that runs on the devices you already own. QLab integration, multi-group support, and real-time sync across your entire venue.</p>
+  <div class="hero-btns">
+    <a href="#pricing" class="btn-primary">Get Started Free</a>
+    <a href="#features" class="btn-secondary">Learn More</a>
+  </div>
+  <div class="hero-scroll">↓ scroll</div>
+</div>
+
+<!-- FEATURES -->
+<section id="features">
+  <div class="section-label">What STBY does</div>
+  <h2>Everything your show needs.<br>Nothing it doesn't.</h2>
+  <p class="section-sub">Built by a theatre technician, for theatre technicians. No unnecessary complexity — just rock-solid cue light control.</p>
+
+  <div class="features-grid">
+    <div class="feature">
+      <div class="feature-icon">⚡</div>
+      <h3>Real-time sync</h3>
+      <p>WebSocket-based architecture keeps every device in perfect sync. State changes propagate in milliseconds across your entire network.</p>
+    </div>
+    <div class="feature">
+      <div class="feature-icon">📡</div>
+      <h3>QLab integration</h3>
+      <p>Full OSC/UDP support on port 9001. Fire standby, go, and idle cues directly from QLab network cues using standard address patterns.</p>
+    </div>
+    <div class="feature">
+      <div class="feature-icon">★●■</div>
+      <h3>Multi-group control</h3>
+      <p>Assign channels to up to three colour-coded groups. Fire Group A, B, or C simultaneously with a single tap — perfect for complex productions.</p>
+    </div>
+    <div class="feature">
+      <div class="feature-icon">✓</div>
+      <h3>Standby confirm</h3>
+      <p>Talent taps READY on their screen, the master card confirms. Never wonder if your performer is actually in position again.</p>
+    </div>
+    <div class="feature">
+      <div class="feature-icon">📱</div>
+      <h3>Any device, any browser</h3>
+      <p>Master and listener views work in any browser on any device. iPads, phones, laptops — if it has a browser, it works with STBY.</p>
+    </div>
+    <div class="feature">
+      <div class="feature-icon">🔍</div>
+      <h3>Auto server discovery</h3>
+      <p>Mobile apps automatically scan your network to find the STBY server. No IP addresses to remember — just tap Find Server and connect.</p>
+    </div>
+    <div class="feature">
+      <div class="feature-icon">🎛</div>
+      <h3>Mac desktop app</h3>
+      <p>Native Electron app for macOS. Start the server, manage channels, monitor cue state, and export OSC reference sheets — all in one place.</p>
+    </div>
+    <div class="feature">
+      <div class="feature-icon">🔒</div>
+      <h3>PIN protected master</h3>
+      <p>The master control view is PIN protected. Listener screens are open — anyone can see their cue, only your DSM can fire them.</p>
+    </div>
+    <div class="feature">
+      <div class="feature-icon">📋</div>
+      <h3>Server logging</h3>
+      <p>Every cue, OSC message, and connection event is logged with timestamps. Export the full log after the show for your production records.</p>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<div id="how" class="full-bleed">
+  <div>
+    <div class="section-label">Setup in minutes</div>
+    <h2>How STBY works</h2>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">01</div>
+        <h3>Start the server</h3>
+        <p>Open the STBY Mac app, select your show network interface, and click Start Server. Your URL appears instantly.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">02</div>
+        <h3>Connect your devices</h3>
+        <p>Open the URL on any iPad or device. The mobile app finds the server automatically. Master view is PIN protected.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">03</div>
+        <h3>Set up your channels</h3>
+        <p>Name your channels to match your positions — DSR, DSL, Flys, Spot 1. Changes sync to all connected devices immediately.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">04</div>
+        <h3>Fire cues</h3>
+        <p>Tap STBY, GO, and CLR from the master iPad, the Mac app, or directly from QLab via OSC. Your talent sees it instantly.</p>
+      </div>
+    </div>
+
+    <!-- Interface preview -->
+    <div class="interface-preview">
+      <div class="preview-bar">
+        <div class="preview-dot" style="background:#ff5f57"></div>
+        <div class="preview-dot" style="background:#febc2e"></div>
+        <div class="preview-dot" style="background:#28c840"></div>
+        <div class="preview-title">STBY — Show Control</div>
+      </div>
+      <div class="preview-body">
+        <div class="preview-left">
+          <div class="preview-section-label">Channels</div>
+
+          <div class="preview-card">
+            <div class="preview-strip" style="background:#0088ff"></div>
+            <div class="preview-card-inner">
+              <span class="preview-card-label" style="color:#e0e0e0">DSR</span>
+              <span class="preview-badge" style="background:#001a3a;color:#0088ff">WAITING...</span>
+            </div>
+            <div class="preview-btns">
+              <div class="preview-btn" style="background:#3a0800;color:#ff3800">STBY</div>
+              <div class="preview-btn" style="background:#003a10;color:#00e040">GO</div>
+              <div class="preview-btn" style="background:#1a0a00;color:#ff6b00">CLR</div>
+            </div>
+          </div>
+
+          <div class="preview-card">
+            <div class="preview-strip" style="background:#ffd000"></div>
+            <div class="preview-card-inner">
+              <span class="preview-card-label" style="color:#e0e0e0">DSL</span>
+              <span class="preview-badge" style="background:#222;color:#555">IDLE</span>
+            </div>
+            <div class="preview-btns">
+              <div class="preview-btn" style="background:#3a0800;color:#ff3800">STBY</div>
+              <div class="preview-btn" style="background:#003a10;color:#00e040">GO</div>
+              <div class="preview-btn" style="background:#161616;color:#555">CLR</div>
+            </div>
+          </div>
+
+          <div class="preview-card">
+            <div class="preview-strip" style="background:#00e040"></div>
+            <div class="preview-card-inner">
+              <span class="preview-card-label" style="color:#e0e0e0">Flys</span>
+              <span class="preview-badge" style="background:#003a10;color:#00e040">GO</span>
+            </div>
+            <div class="preview-btns">
+              <div class="preview-btn" style="background:#3a0800;color:#ff3800">STBY</div>
+              <div class="preview-btn" style="background:#003a10;color:#00e040">GO</div>
+              <div class="preview-btn" style="background:#1a0a00;color:#ff6b00">CLR</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="preview-right">
+          <div class="preview-section-label">Server Log</div>
+          <div class="preview-log">
+            <div class="log-row"><span class="log-time">19:42:01</span><span class="log-success">SUCCESS</span><span>Server started — http://192.168.1.25:3000</span></div>
+            <div class="log-row"><span class="log-time">19:42:04</span><span class="log-connect">CONNECT</span><span>Device connected (1 total)</span></div>
+            <div class="log-row"><span class="log-time">19:42:18</span><span class="log-connect">CONNECT</span><span>Device connected (2 total)</span></div>
+            <div class="log-row"><span class="log-time">19:43:02</span><span class="log-osc">OSC</span><span>✓ /stby/ch1/standby ← 192.168.1.10</span></div>
+            <div class="log-row"><span class="log-time">19:43:05</span><span class="log-confirm">CONFIRM</span><span>ch1 confirmed READY</span></div>
+            <div class="log-row"><span class="log-time">19:43:11</span><span class="log-osc">OSC</span><span>✓ /stby/ch1/go ← 192.168.1.10</span></div>
+            <div class="log-row"><span class="log-time">19:43:11</span><span class="log-cue">CUE</span><span>ch1 → GO</span></div>
+            <div class="log-row"><span class="log-time">19:43:44</span><span class="log-osc">OSC</span><span>✓ /stby/ch3/standby ← 192.168.1.10</span></div>
+            <div class="log-row"><span class="log-time">19:43:46</span><span class="log-cue">CUE</span><span>Group A STANDBY → ch1, ch2</span></div>
+          </div>
+
+          <div class="osc-block" style="margin-top:auto">
+            <div class="osc-comment"># OSC Quick Reference — port 9001</div>
+            /stby/ch1/standby<br>
+            /stby/ch1/go<br>
+            /stby/all/idle
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- PRICING -->
+<section id="pricing">
+  <div class="section-label">Simple pricing</div>
+  <h2>Free for small shows.<br>Professional for everything else.</h2>
+  <p class="section-sub">No subscriptions. No per-show fees. Pay once, own it forever.</p>
+
+  <div class="pricing-grid">
+
+    <!-- Free -->
+    <div class="pricing-card">
+      <div class="pricing-name">Free</div>
+      <div class="pricing-price">£0</div>
+      <div class="pricing-period">Forever — no credit card required</div>
+      <ul class="pricing-features">
+        <li>Mac desktop server app</li>
+        <li>Up to 2 channels</li>
+        <li>1 group (Group A)</li>
+        <li>Standby confirm</li>
+        <li>Browser-based master &amp; listener</li>
+        <li class="unavail">OSC / QLab integration</li>
+        <li class="unavail">Multi-group support</li>
+        <li class="unavail">Server log export</li>
+      </ul>
+      <a href="#" class="pricing-btn pricing-btn-free">Download Free</a>
+    </div>
+
+    <!-- Pro Server -->
+    <div class="pricing-card featured">
+      <div class="pricing-featured-badge">Most Popular</div>
+      <div class="pricing-name">Pro Server</div>
+      <div class="pricing-price" style="color:var(--accent)">£39.99</div>
+      <div class="pricing-period">One-off payment — free updates forever</div>
+      <ul class="pricing-features">
+        <li>Everything in Free</li>
+        <li>Unlimited channels</li>
+        <li>3 groups (A, B, C)</li>
+        <li>OSC / QLab integration</li>
+        <li>Server log export</li>
+        <li>Channel list export</li>
+        <li>Priority support</li>
+        <li>All future features</li>
+      </ul>
+      <a href="#" class="pricing-btn pricing-btn-paid">Buy Pro Server — £39.99</a>
+    </div>
+
+    <!-- Mobile -->
+    <div class="pricing-card">
+      <div class="pricing-name">Mobile App</div>
+      <div class="pricing-price">£4.99</div>
+      <div class="pricing-period">iOS &amp; Android — one-off purchase</div>
+      <ul class="pricing-features">
+        <li>Native iOS &amp; Android app</li>
+        <li>Auto server discovery</li>
+        <li>Master &amp; listener views</li>
+        <li>Full group support</li>
+        <li>Remembers last server</li>
+        <li>Screen always-on</li>
+        <li>Works with Free &amp; Pro server</li>
+      </ul>
+      <a href="#" class="pricing-btn pricing-btn-mobile">Coming Soon</a>
+    </div>
+
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">
+    <span class="footer-stby">STBY</span>
+    <span style="font-size:13px;color:var(--dim);letter-spacing:2px;text-transform:uppercase;">Show Control</span>
+  </div>
+  <div class="footer-links">
+    <a href="#">Privacy Policy</a>
+    <a href="mailto:hello@getstby.app">Support</a>
+    <a href="#">Press Kit</a>
+  </div>
+  <div class="footer-copy">© 2026 STBY Show Control. All rights reserved.</div>
+</footer>
+
+</body>
+</html>
