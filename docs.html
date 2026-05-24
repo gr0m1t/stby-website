@@ -1,0 +1,811 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>STBY — Help &amp; Documentation</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Barlow+Condensed:ital,wght@0,300;0,400;0,600;0,900;1,400&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --bg:          #080808;
+  --surface:     #111111;
+  --panel:       #161616;
+  --card:        #1a1a1a;
+  --border:      #222222;
+  --border-hi:   #2e2e2e;
+  --text:        #e0e0e0;
+  --dim:         #666666;
+  --dimmer:      #2a2a2a;
+  --accent:      #ff6b00;
+  --accent-dim:  #3a1800;
+  --go:          #00e040;
+  --go-dim:      #003a10;
+  --standby:     #ff3800;
+  --standby-dim: #3a0800;
+  --confirm:     #0088ff;
+  --confirm-dim: #001a33;
+  --grpA:        #ffd000;
+  --grpA-dim:    #2a2000;
+  --grpB:        #00d4ff;
+  --grpB-dim:    #002a33;
+  --sidebar-w:   260px;
+}
+
+html { scroll-behavior: smooth; }
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 16px;
+  line-height: 1.6;
+  display: flex;
+  min-height: 100vh;
+}
+
+/* ── SIDEBAR ── */
+#sidebar {
+  width: var(--sidebar-w);
+  background: var(--surface);
+  border-right: 1px solid var(--border);
+  position: fixed;
+  top: 0; left: 0; bottom: 0;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  z-index: 100;
+}
+#sidebar-logo { padding: 24px 20px 20px; border-bottom: 1px solid var(--border); flex-shrink: 0; }
+.stby-box {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 15px; color: var(--accent);
+  border: 1.5px solid var(--accent);
+  border-radius: 4px; padding: 3px 10px;
+  display: inline-block; letter-spacing: 0.05em;
+}
+#sidebar-logo .tagline {
+  display: block; font-size: 10px; font-weight: 600;
+  letter-spacing: 0.2em; text-transform: uppercase;
+  color: var(--dim); margin-top: 10px;
+}
+#sidebar nav { padding: 14px 0; flex: 1; }
+.nav-section {
+  font-size: 9px; font-weight: 700; letter-spacing: 0.25em;
+  text-transform: uppercase; color: var(--dim); padding: 16px 20px 6px;
+}
+.nav-section:first-child { padding-top: 6px; }
+.nav-link {
+  display: flex; align-items: center; gap: 10px;
+  padding: 7px 20px; font-size: 14px; font-weight: 400;
+  color: var(--dim); text-decoration: none; letter-spacing: 0.04em;
+  border-left: 2px solid transparent;
+  transition: color 0.15s, border-color 0.15s, background 0.15s;
+}
+.nav-link:hover, .nav-link.active {
+  color: var(--text); border-left-color: var(--accent); background: var(--panel);
+}
+.nav-link .icon { font-size: 13px; width: 16px; text-align: center; flex-shrink: 0; }
+#sidebar-footer {
+  padding: 16px 20px; border-top: 1px solid var(--border);
+  font-size: 11px; color: var(--dim); flex-shrink: 0;
+}
+#sidebar-footer a { color: var(--accent); text-decoration: none; }
+
+/* ── MAIN ── */
+#main { margin-left: var(--sidebar-w); flex: 1; min-width: 0; }
+
+#topbar {
+  position: sticky; top: 0;
+  background: rgba(8,8,8,0.92); backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border);
+  height: 60px; display: flex; align-items: center;
+  padding: 0 40px; gap: 20px; z-index: 50;
+}
+#topbar h1 { font-size: 13px; font-weight: 600; letter-spacing: 0.18em; text-transform: uppercase; color: var(--dim); }
+.breadcrumb-sep { color: var(--border-hi); font-size: 12px; }
+#topbar .page-title { font-size: 13px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text); }
+
+#content { max-width: 820px; padding: 48px 40px 80px; }
+
+/* ── TYPOGRAPHY ── */
+.doc-section { margin-bottom: 72px; scroll-margin-top: 80px; }
+.section-label {
+  font-size: 9px; font-weight: 700; letter-spacing: 0.3em;
+  text-transform: uppercase; color: var(--accent); margin-bottom: 10px;
+  font-family: 'Share Tech Mono', monospace;
+}
+.doc-section > h2 {
+  font-size: 36px; font-weight: 900; letter-spacing: 0.02em;
+  color: var(--text); line-height: 1.1; margin-bottom: 18px;
+}
+h3 {
+  font-size: 20px; font-weight: 700; letter-spacing: 0.06em;
+  color: var(--text); margin: 36px 0 10px; text-transform: uppercase;
+}
+h4 {
+  font-size: 14px; font-weight: 700; letter-spacing: 0.12em;
+  text-transform: uppercase; color: var(--accent); margin: 24px 0 8px;
+}
+.prose { max-width: 680px; }
+.prose p { font-size: 16px; font-weight: 300; color: #aaa; margin-bottom: 14px; line-height: 1.75; }
+.prose strong { color: var(--text); font-weight: 600; }
+.doc-section > p { font-size: 16px; font-weight: 300; color: #aaa; max-width: 680px; margin-bottom: 16px; line-height: 1.75; }
+
+/* ── CALLOUTS ── */
+.callout {
+  border-left: 3px solid var(--accent); background: var(--accent-dim);
+  padding: 14px 18px; border-radius: 0 4px 4px 0;
+  margin: 20px 0; font-size: 14px; color: #ccc; max-width: 680px;
+}
+.callout.go { border-color: var(--go); background: var(--go-dim); }
+.callout.info { border-color: var(--confirm); background: var(--confirm-dim); }
+.callout-label {
+  font-size: 9px; font-weight: 700; letter-spacing: 0.25em;
+  text-transform: uppercase; color: var(--accent); display: block; margin-bottom: 5px;
+  font-family: 'Share Tech Mono', monospace;
+}
+.callout.go .callout-label { color: var(--go); }
+.callout.info .callout-label { color: var(--confirm); }
+
+/* ── STEPS ── */
+.steps { list-style: none; max-width: 680px; margin: 20px 0; }
+.steps li { display: flex; gap: 18px; align-items: flex-start; padding: 14px 0; border-bottom: 1px solid var(--border); }
+.steps li:last-child { border-bottom: none; }
+.step-num {
+  font-family: 'Share Tech Mono', monospace; font-size: 13px; color: var(--accent);
+  background: var(--accent-dim); border: 1px solid var(--accent); border-radius: 3px;
+  width: 28px; height: 28px; display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0; margin-top: 2px;
+}
+.step-body { flex: 1; }
+.step-body strong { color: var(--text); font-size: 15px; font-weight: 600; display: block; margin-bottom: 3px; }
+.step-body span { font-size: 14px; color: #888; font-weight: 300; }
+
+/* ── SCREENSHOTS ── */
+.screenshot-wrap {
+  margin: 28px 0;
+  border: 1px solid var(--border-hi);
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.6);
+  max-width: 720px;
+  position: relative;
+  background: var(--surface);
+}
+.screenshot-wrap img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+.screenshot-label {
+  position: absolute; top: 10px; right: 12px;
+  font-size: 9px; font-family: 'Share Tech Mono', monospace;
+  letter-spacing: 0.15em; color: var(--dim);
+  background: rgba(8,8,8,0.85); padding: 2px 8px; border-radius: 3px;
+  border: 1px solid var(--border); z-index: 5;
+}
+
+/* screenshot grid for listener states */
+.screenshot-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 14px;
+  margin: 28px 0;
+  max-width: 720px;
+}
+.screenshot-grid-item {
+  border: 1px solid var(--border-hi);
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.5);
+  position: relative;
+}
+.screenshot-grid-item img { display: block; width: 100%; height: auto; }
+.screenshot-grid-caption {
+  background: var(--surface);
+  padding: 8px 12px;
+  font-size: 12px; font-weight: 600; letter-spacing: 0.08em;
+  text-transform: uppercase; color: var(--dim);
+  border-top: 1px solid var(--border);
+}
+.screenshot-grid-caption.idle { color: var(--dim); }
+.screenshot-grid-caption.standby { color: var(--standby); }
+.screenshot-grid-caption.ready { color: var(--confirm); }
+.screenshot-grid-caption.go { color: var(--go); }
+
+/* pin screenshot — portrait, narrower */
+.screenshot-portrait {
+  margin: 28px 0;
+  border: 1px solid var(--border-hi);
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.6);
+  max-width: 340px;
+  position: relative;
+  background: var(--surface);
+}
+.screenshot-portrait img { display: block; width: 100%; height: auto; }
+
+/* ── ANNOTATIONS ── */
+.arrow-wrap {
+  display: flex; align-items: flex-start; gap: 14px;
+  margin: 8px 0; max-width: 720px;
+}
+.arrow-line { display: flex; align-items: center; flex-shrink: 0; }
+.arr-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--accent); flex-shrink: 0; }
+.arr-shaft { width: 32px; height: 1px; background: var(--accent); }
+.arr-head { width: 0; height: 0; border-top: 4px solid transparent; border-bottom: 4px solid transparent; border-left: 7px solid var(--accent); }
+.annotation {
+  font-size: 13px; font-weight: 400; color: #aaa; line-height: 1.5;
+  padding: 6px 10px; border-left: 2px solid var(--accent);
+  background: linear-gradient(90deg, rgba(255,107,0,0.06) 0%, transparent 100%);
+}
+.annotation strong { color: var(--text); font-weight: 600; }
+
+/* ── OSC TABLE ── */
+.osc-table { width: 100%; max-width: 680px; border-collapse: collapse; margin: 16px 0; font-size: 14px; }
+.osc-table th { text-align: left; font-size: 9px; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: var(--dim); padding: 8px 12px; border-bottom: 1px solid var(--border-hi); }
+.osc-table td { padding: 9px 12px; border-bottom: 1px solid var(--border); }
+.osc-table td:first-child { font-family: 'Share Tech Mono', monospace; font-size: 12px; color: var(--confirm); }
+.osc-table td:last-child { color: #888; }
+.osc-table tr:last-child td { border-bottom: none; }
+.osc-table tbody tr:hover td { background: var(--panel); }
+
+/* ── BADGES ── */
+.badge {
+  display: inline-flex; align-items: center;
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 10px; font-weight: 700; letter-spacing: 0.1em;
+  padding: 2px 8px; border-radius: 3px; border: 1px solid; text-transform: uppercase;
+}
+.badge.master { color: var(--accent); border-color: var(--accent); background: var(--accent-dim); }
+.badge.listener { color: var(--confirm); border-color: var(--confirm); background: var(--confirm-dim); }
+.badge.dsm { color: var(--go); border-color: var(--go); background: var(--go-dim); }
+
+/* ── INLINE CODE ── */
+code {
+  font-family: 'Share Tech Mono', monospace; font-size: 12px;
+  background: var(--dimmer); border: 1px solid var(--border-hi);
+  border-radius: 3px; padding: 1px 6px; color: var(--confirm);
+}
+
+/* ── MOBILE ── */
+#mobile-nav-toggle {
+  display: none; position: fixed; bottom: 20px; right: 20px;
+  width: 50px; height: 50px; background: var(--accent);
+  border: none; border-radius: 50%; cursor: pointer; z-index: 200;
+  font-size: 20px; align-items: center; justify-content: center;
+  box-shadow: 0 4px 16px rgba(255,107,0,0.4); color: #fff;
+}
+@media (max-width: 780px) {
+  #sidebar { transform: translateX(-100%); transition: transform 0.25s; }
+  #sidebar.open { transform: translateX(0); }
+  #main { margin-left: 0; }
+  #content { padding: 32px 20px 60px; }
+  #mobile-nav-toggle { display: flex; }
+  .screenshot-grid { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<aside id="sidebar">
+  <div id="sidebar-logo">
+    <span class="stby-box">STBY</span>
+    <span class="tagline">Help &amp; Documentation</span>
+  </div>
+  <nav>
+    <div class="nav-section">Getting Started</div>
+    <a href="#overview" class="nav-link"><span class="icon">◈</span> What is STBY?</a>
+    <a href="#who-does-what" class="nav-link"><span class="icon">◎</span> Who Does What?</a>
+    <a href="#quick-start" class="nav-link"><span class="icon">▶</span> Quick Start</a>
+
+    <div class="nav-section">The Server App</div>
+    <a href="#server-setup" class="nav-link"><span class="icon">⬡</span> Setup &amp; Launch</a>
+    <a href="#channels" class="nav-link"><span class="icon">▤</span> Managing Channels</a>
+    <a href="#groups" class="nav-link"><span class="icon">★</span> Groups</a>
+    <a href="#osc" class="nav-link"><span class="icon">⌘</span> OSC / QLab</a>
+
+    <div class="nav-section">On-Stage Devices</div>
+    <a href="#connecting" class="nav-link"><span class="icon">⊕</span> Connecting Devices</a>
+    <a href="#master" class="nav-link"><span class="icon">◉</span> Master View</a>
+    <a href="#listener" class="nav-link"><span class="icon">◎</span> Listener View</a>
+    <a href="#monitor" class="nav-link"><span class="icon">▣</span> Monitor View</a>
+
+    <div class="nav-section">Mobile App</div>
+    <a href="#mobile-discovery" class="nav-link"><span class="icon">⊞</span> Finding the Server</a>
+    <a href="#mobile-role" class="nav-link"><span class="icon">⊟</span> Choosing a Role</a>
+
+    <div class="nav-section">Reference</div>
+    <a href="#standby-flow" class="nav-link"><span class="icon">↻</span> Standby Flow</a>
+    <a href="#pin" class="nav-link"><span class="icon">⬤</span> PIN &amp; Access</a>
+    <a href="#troubleshooting" class="nav-link"><span class="icon">⚠</span> Troubleshooting</a>
+  </nav>
+  <div id="sidebar-footer">
+    <a href="mailto:hello@getstby.app">hello@getstby.app</a><br>
+    <span style="color:#444">© STBY Show Control</span>
+  </div>
+</aside>
+
+<button id="mobile-nav-toggle" onclick="document.getElementById('sidebar').classList.toggle('open')">☰</button>
+
+<div id="main">
+  <div id="topbar">
+    <h1>STBY</h1>
+    <span class="breadcrumb-sep">›</span>
+    <span class="page-title">Documentation</span>
+  </div>
+
+  <div id="content">
+
+    <!-- OVERVIEW -->
+    <section class="doc-section" id="overview">
+      <div class="section-label">01 — Introduction</div>
+      <h2>What is STBY?</h2>
+      <div class="prose">
+        <p>STBY (short for <strong>Standby</strong>) is a professional cue light system for live theatre and events. It replaces expensive dedicated hardware with software that runs on devices your venue already owns — Mac laptops, iPads, iPhones, and Android phones.</p>
+        <p>A cue light system is how a Stage Manager or DSM communicates with performers waiting offstage: a <strong>STANDBY</strong> signal means "get ready", and a <strong>GO</strong> signal means "go now". STBY handles all of this over your venue's Wi-Fi network.</p>
+      </div>
+      <div class="callout info">
+        <span class="callout-label">Good to know</span>
+        No special hardware required. STBY runs on a Mac (the server) and any device with a web browser. If you can open a web page, you can use STBY.
+      </div>
+    </section>
+
+    <!-- WHO DOES WHAT -->
+    <section class="doc-section" id="who-does-what">
+      <div class="section-label">02 — Roles</div>
+      <h2>Who Does What?</h2>
+      <div class="prose">
+        <p>STBY has three types of users. Understanding which role each person plays is the key to getting set up quickly.</p>
+      </div>
+      <div style="display:flex; flex-direction:column; gap:14px; max-width:680px; margin-top:16px;">
+        <div class="callout go">
+          <span class="callout-label">DSM / Stage Manager <span class="badge dsm" style="margin-left:8px;">SERVER + MASTER</span></span>
+          Runs the STBY server app on a Mac. Controls all cue lights from the <strong>Master</strong> view — fires STANDBY and GO cues, manages groups, sees who is connected and who is confirmed ready. This is the only role that needs the Mac app installed.
+        </div>
+        <div class="callout">
+          <span class="callout-label">ASM / Cue Caller <span class="badge master" style="margin-left:8px;">MASTER</span></span>
+          Opens the Master view in a browser (or the mobile app) after entering the PIN. Can fire cues, manage groups, and see all listener status.
+        </div>
+        <div class="callout info">
+          <span class="callout-label">Performer / Technician <span class="badge listener" style="margin-left:8px;">LISTENER</span></span>
+          Opens a URL in their phone or tablet browser. No PIN, no setup — just opens the page, picks their position, and waits. The screen flashes on STANDBY and glows green on GO.
+        </div>
+      </div>
+    </section>
+
+    <!-- QUICK START -->
+    <section class="doc-section" id="quick-start">
+      <div class="section-label">03 — Quick Start</div>
+      <h2>Up and Running in 5 Minutes</h2>
+      <div class="prose">
+        <p>This is the fastest path from zero to firing your first cue light. Every device needs to be on the same Wi-Fi network.</p>
+      </div>
+      <ol class="steps">
+        <li>
+          <span class="step-num">1</span>
+          <div class="step-body">
+            <strong>Open the STBY app on your Mac</strong>
+            <span>Double-click the STBY app. The main window opens with a Server and Settings tab on the left, and a log panel on the right.</span>
+          </div>
+        </li>
+        <li>
+          <span class="step-num">2</span>
+          <div class="step-body">
+            <strong>Click "Start Server"</strong>
+            <span>The status dot turns green and a URL appears — something like <code>http://192.168.1.50:3000</code>. This is the address every other device will use.</span>
+          </div>
+        </li>
+        <li>
+          <span class="step-num">3</span>
+          <div class="step-body">
+            <strong>Share the URL with your team</strong>
+            <span>Use the <strong>Copy</strong> button to copy the address, then send it by message, AirDrop, or write it on a whiteboard.</span>
+          </div>
+        </li>
+        <li>
+          <span class="step-num">4</span>
+          <div class="step-body">
+            <strong>Performers open the URL in their browser</strong>
+            <span>Paste the URL into Safari or Chrome. The Listener screen appears automatically. They choose their position from the selector at the bottom and they're live.</span>
+          </div>
+        </li>
+        <li>
+          <span class="step-num">5</span>
+          <div class="step-body">
+            <strong>DSM fires cues from the Master view</strong>
+            <span>In the STBY Mac app (or in a browser at the same URL after entering the PIN), tap STBY to warn a performer, then GO to send them.</span>
+          </div>
+        </li>
+      </ol>
+      <div class="callout">
+        <span class="callout-label">Tip — Keep Screens Awake</span>
+        On iPads and phones, disable auto-lock for the duration of the show. The STBY mobile app handles this automatically, but the browser version does not.
+      </div>
+    </section>
+
+    <!-- SERVER SETUP -->
+    <section class="doc-section" id="server-setup">
+      <div class="section-label">04 — Server App</div>
+      <h2>The STBY Server App</h2>
+      <div class="prose">
+        <p>The server app runs on your Mac and is the brain of the whole system. Everything else — iPads, phones, QLab — talks to it.</p>
+      </div>
+
+      <div class="screenshot-wrap">
+        <span class="screenshot-label">SERVER APP</span>
+        <img src="img-server.png" alt="STBY server app showing the main window with server running, log panel, and channel cards">
+      </div>
+
+      <div class="arrow-wrap"><div class="arrow-line"><span class="arr-dot"></span><span class="arr-shaft"></span><span class="arr-head"></span></div><div class="annotation"><strong>Status area (top left):</strong> shows RUNNING with a green dot, the server URL, and Copy / Open / Monitor buttons.</div></div>
+      <div class="arrow-wrap"><div class="arrow-line"><span class="arr-dot"></span><span class="arr-shaft"></span><span class="arr-head"></span></div><div class="annotation"><strong>Connected Devices:</strong> shows how many Masters and Listeners are connected to each channel in real time.</div></div>
+      <div class="arrow-wrap"><div class="arrow-line"><span class="arr-dot"></span><span class="arr-shaft"></span><span class="arr-head"></span></div><div class="annotation"><strong>Server Log:</strong> a live record of every connection and cue event — colour-coded by type. Useful for troubleshooting.</div></div>
+      <div class="arrow-wrap"><div class="arrow-line"><span class="arr-dot"></span><span class="arr-shaft"></span><span class="arr-head"></span></div><div class="annotation"><strong>Individual Channels (bottom right):</strong> full cue control — STBY, GO, and CLR per channel, with group assignments and listener status.</div></div>
+      <div class="arrow-wrap"><div class="arrow-line"><span class="arr-dot"></span><span class="arr-shaft"></span><span class="arr-head"></span></div><div class="annotation"><strong>OSC Quick Reference (footer):</strong> the OSC addresses and port number, always visible at the bottom of the window.</div></div>
+
+      <h3>Settings Tab</h3>
+      <div class="prose">
+        <p>Click the <strong>⚙ Settings</strong> tab on the left to configure the system before starting the server.</p>
+      </div>
+      <ul class="steps">
+        <li>
+          <span class="step-num">①</span>
+          <div class="step-body">
+            <strong>Channels</strong>
+            <span>Add, remove, and rename your cue positions. Default names are DSR, DSL, Flys, and Spot 1. Changes take effect immediately — no restart needed.</span>
+          </div>
+        </li>
+        <li>
+          <span class="step-num">②</span>
+          <div class="step-body">
+            <strong>PIN</strong>
+            <span>Set the 4-digit PIN that protects the Master view. Anyone without the PIN can still connect as a Listener — they just can't fire cues.</span>
+          </div>
+        </li>
+        <li>
+          <span class="step-num">③</span>
+          <div class="step-body">
+            <strong>Groups</strong>
+            <span>Enable 1, 2, or 3 channel groups (A, B, C) to fire multiple cue positions simultaneously. See the <a href="#groups" style="color:var(--accent)">Groups section</a> for full details.</span>
+          </div>
+        </li>
+      </ul>
+    </section>
+
+    <!-- CHANNELS -->
+    <section class="doc-section" id="channels">
+      <div class="section-label">05 — Channels</div>
+      <h2>Managing Channels</h2>
+      <div class="prose">
+        <p>Each <strong>channel</strong> is one cue position — a place offstage where a performer or technician is waiting. You can have as many channels as you need.</p>
+        <p>Channels are named in the Settings tab. The name you give a channel is what performers see when they open their Listener screen and choose their position.</p>
+      </div>
+      <div class="callout">
+        <span class="callout-label">UK Spelling Note</span>
+        The flyspace channel is labelled <strong>Flys</strong> by default — the correct UK theatrical spelling, not "Flies".
+      </div>
+
+      <h3>Channel States</h3>
+      <div class="prose">
+        <p>Every channel is always in one of four states, shown clearly on each card in the Master view:</p>
+      </div>
+
+      <div class="screenshot-wrap">
+        <span class="screenshot-label">MASTER VIEW — CHANNEL CARDS</span>
+        <img src="img-master.png" alt="Master view showing channel cards in various states with group controls">
+      </div>
+
+      <div class="arrow-wrap"><div class="arrow-line"><span class="arr-dot"></span><span class="arr-shaft"></span><span class="arr-head"></span></div><div class="annotation"><strong>DSR (red border, blue header):</strong> on STANDBY — the performer's screen is flashing. "Waiting for talent..." indicates the performer hasn't yet tapped READY.</div></div>
+      <div class="arrow-wrap"><div class="arrow-line"><span class="arr-dot"></span><span class="arr-shaft"></span><span class="arr-head"></span></div><div class="annotation"><strong>DSL (red border, green header):</strong> also on STANDBY — but the green dot shows the performer is confirmed READY. Tap GO to send them.</div></div>
+      <div class="arrow-wrap"><div class="arrow-line"><span class="arr-dot"></span><span class="arr-shaft"></span><span class="arr-head"></span></div><div class="annotation"><strong>Flys (yellow border):</strong> assigned to Group A and currently IDLE — the yellow border and "★ IN A" badge show its group membership.</div></div>
+      <div class="arrow-wrap"><div class="arrow-line"><span class="arr-dot"></span><span class="arr-shaft"></span><span class="arr-head"></span></div><div class="annotation"><strong>★ A / ☆ A badge</strong> at the bottom of each card: shows group assignment. Tap to add or remove the channel from a group.</div></div>
+    </section>
+
+    <!-- GROUPS -->
+    <section class="doc-section" id="groups">
+      <div class="section-label">06 — Groups</div>
+      <h2>Groups</h2>
+      <div class="prose">
+        <p>Groups let you fire <strong>multiple channels simultaneously</strong> with a single button press. A DSM running a complex musical with overlapping cues can set up Group A for the DSM wing, Group B for the director's cue positions, and fire them independently.</p>
+        <p>You can have up to three groups: <strong>★ Group A</strong> (yellow), <strong>● Group B</strong> (cyan), and <strong>■ Group C</strong> (purple). Enable the groups you need in Settings before starting the server.</p>
+      </div>
+
+      <h3>The Group Toolbar</h3>
+      <div class="prose">
+        <p>The Group Control toolbar sits above the channel cards in both the server app and the Master browser view. It gives you STBY, GO, and Clear buttons for each active group.</p>
+      </div>
+
+      <div class="screenshot-wrap">
+        <span class="screenshot-label">MASTER VIEW — GROUP TOOLBAR</span>
+        <img src="img-master.png" alt="Master view showing the group toolbar with A STBY, A GO, GRP A UNGROUP and CLEAR ALL buttons">
+      </div>
+
+      <div class="arrow-wrap"><div class="arrow-line"><span class="arr-dot"></span><span class="arr-shaft"></span><span class="arr-head"></span></div><div class="annotation"><strong>★ A STBY / ★ A GO:</strong> fires STANDBY or GO simultaneously on all channels assigned to Group A.</div></div>
+      <div class="arrow-wrap"><div class="arrow-line"><span class="arr-dot"></span><span class="arr-shaft"></span><span class="arr-head"></span></div><div class="annotation"><strong>GRP A UNGROUP:</strong> the smart clear button. If channels are active it resets their state; if already idle it removes them from the group entirely.</div></div>
+      <div class="arrow-wrap"><div class="arrow-line"><span class="arr-dot"></span><span class="arr-shaft"></span><span class="arr-head"></span></div><div class="annotation"><strong>CLEAR ALL:</strong> clears all channel states and removes all group assignments. Use with care mid-show.</div></div>
+
+      <h4>Assigning Channels to Groups</h4>
+      <div class="prose">
+        <p>Each channel card has a group badge at the bottom (★ A, ● B, ■ C). Tap it to assign the channel to that group — it highlights in the group colour. A channel can only be in one group at a time; assigning it to a new group removes it from the old one automatically.</p>
+      </div>
+
+      <h4>Smart Clear</h4>
+      <div class="prose">
+        <p><strong>First tap</strong> — if any channels in the group are active (STANDBY or GO), it clears them back to Idle but keeps them in the group. "GO Reset."</p>
+        <p><strong>Second tap</strong> — if all channels are already Idle, it removes them from the group. "Ungroup."</p>
+        <p>This means you can safely hit Clear mid-show without losing your group setup.</p>
+      </div>
+
+      <div class="callout go">
+        <span class="callout-label">Show Workflow Tip</span>
+        Set up your groups during tech or dress. Group assignments <strong>persist through GO</strong> — once a channel is in Group A, it stays there until you deliberately remove it. You only need to configure this once per show.
+      </div>
+    </section>
+
+    <!-- OSC -->
+    <section class="doc-section" id="osc">
+      <div class="section-label">07 — OSC / QLab</div>
+      <h2>OSC &amp; QLab Integration</h2>
+      <div class="prose">
+        <p>STBY can receive <strong>OSC messages</strong> from QLab or any OSC-capable system, letting you fire cue lights automatically as part of your cue stack.</p>
+        <p>OSC messages are received on <strong>UDP port 9001</strong> by default (changeable in Settings). The OSC addresses and port are always shown in the footer of the server app window.</p>
+      </div>
+
+      <h3>OSC Address Reference</h3>
+      <table class="osc-table">
+        <thead><tr><th>OSC Address</th><th>Action</th></tr></thead>
+        <tbody>
+          <tr><td>/stby/ch1/standby</td><td>Send STANDBY to channel 1 (DSR)</td></tr>
+          <tr><td>/stby/ch1/go</td><td>Send GO to channel 1 (DSR)</td></tr>
+          <tr><td>/stby/ch1/idle</td><td>Clear channel 1 to Idle</td></tr>
+          <tr><td>/stby/ch2/standby</td><td>Send STANDBY to channel 2 (DSL)</td></tr>
+          <tr><td>/stby/ch2/go</td><td>Send GO to channel 2 (DSL)</td></tr>
+          <tr><td>/stby/all/idle</td><td>Clear ALL channels to Idle</td></tr>
+        </tbody>
+      </table>
+      <div class="prose">
+        <p>Channel numbers follow the order in the channel list — <code>ch1</code> is the first channel, <code>ch2</code> the second, and so on.</p>
+      </div>
+
+      <h3>Setting Up in QLab</h3>
+      <ol class="steps">
+        <li><span class="step-num">1</span><div class="step-body"><strong>Open QLab Workspace Settings → Network</strong><span>Click the gear icon in your QLab workspace, then select the Network tab.</span></div></li>
+        <li><span class="step-num">2</span><div class="step-body"><strong>Add a new network patch</strong><span>Set the destination to your Mac's IP address (shown in the STBY server app) and port 9001. Type: UDP.</span></div></li>
+        <li><span class="step-num">3</span><div class="step-body"><strong>Create a Network cue</strong><span>Add a Network cue type, choose your STBY patch, and enter the OSC address — e.g. <code>/stby/ch1/standby</code>.</span></div></li>
+        <li><span class="step-num">4</span><div class="step-body"><strong>Test with the server running</strong><span>Fire the QLab cue — it should appear in the STBY server log immediately.</span></div></li>
+      </ol>
+      <div class="callout info">
+        <span class="callout-label">QLab Tip</span>
+        STANDBY a performer two or three cues before the GO so they have time to get in position and confirm READY before you call it.
+      </div>
+    </section>
+
+    <!-- CONNECTING -->
+    <section class="doc-section" id="connecting">
+      <div class="section-label">08 — Devices</div>
+      <h2>Connecting Devices</h2>
+      <div class="prose">
+        <p>Any device with a modern web browser can connect to STBY — iPad, iPhone, Android phone, laptop. All devices must be on the <strong>same Wi-Fi network</strong> as the Mac running the server.</p>
+      </div>
+      <ol class="steps">
+        <li><span class="step-num">1</span><div class="step-body"><strong>Open Safari (or any browser) on the device</strong><span>Safari is recommended on iPhone and iPad. Chrome works well on Android and desktop.</span></div></li>
+        <li><span class="step-num">2</span><div class="step-body"><strong>Type in the server URL</strong><span>Enter the address shown in the STBY app — e.g. <code>http://192.168.1.50:3000</code>. Don't forget the <code>http://</code> or the <code>:3000</code>.</span></div></li>
+        <li><span class="step-num">3</span><div class="step-body"><strong>The Listener screen appears</strong><span>By default, every device that opens the URL goes straight to Listener mode. Select your position from the selector at the bottom. To access Master, tap the MASTER button at the top and enter the PIN.</span></div></li>
+      </ol>
+      <div class="callout">
+        <span class="callout-label">Important — Don't Add to Home Screen</span>
+        On iPhone and iPad, do <strong>not</strong> use "Add to Home Screen". Open the URL directly in Safari and keep the tab open. The home screen shortcut mode blocks the connection.
+      </div>
+    </section>
+
+    <!-- MASTER VIEW -->
+    <section class="doc-section" id="master">
+      <div class="section-label">09 — Master View</div>
+      <h2>The Master View</h2>
+      <div class="prose">
+        <p>The Master view is where the DSM or cue caller operates. It shows all channel cards and group controls. Access it in the STBY server app directly, or in a browser after entering the PIN.</p>
+      </div>
+
+      <div class="screenshot-wrap">
+        <span class="screenshot-label">MASTER VIEW</span>
+        <img src="img-master.png" alt="Full master view showing group toolbar and all four channel cards">
+      </div>
+
+      <div class="arrow-wrap"><div class="arrow-line"><span class="arr-dot"></span><span class="arr-shaft"></span><span class="arr-head"></span></div><div class="annotation"><strong>MASTER / LISTENER / MONITOR tabs</strong> (top right): switch between views from any page.</div></div>
+      <div class="arrow-wrap"><div class="arrow-line"><span class="arr-dot"></span><span class="arr-shaft"></span><span class="arr-head"></span></div><div class="annotation"><strong>Group Control toolbar:</strong> group-wide STBY, GO, and Clear. Only the groups you've enabled in Settings appear here.</div></div>
+      <div class="arrow-wrap"><div class="arrow-line"><span class="arr-dot"></span><span class="arr-shaft"></span><span class="arr-head"></span></div><div class="annotation"><strong>Channel cards:</strong> STBY fires the standby warning, GO sends the cue, CLR resets the channel to Idle.</div></div>
+      <div class="arrow-wrap"><div class="arrow-line"><span class="arr-dot"></span><span class="arr-shaft"></span><span class="arr-head"></span></div><div class="annotation"><strong>Card header colour:</strong> orange/amber = waiting for talent to confirm; green = talent confirmed READY; grey = no listener connected.</div></div>
+    </section>
+
+    <!-- LISTENER VIEW -->
+    <section class="doc-section" id="listener">
+      <div class="section-label">10 — Listener View</div>
+      <h2>The Listener View</h2>
+      <div class="prose">
+        <p>This is what the performer or offstage technician sees. The entire screen is their cue light — big, bright, and impossible to miss in a dark wing. It's the default view when any device opens the STBY URL.</p>
+      </div>
+
+      <div class="screenshot-grid">
+        <div class="screenshot-grid-item">
+          <img src="img-listener-idle.png" alt="Listener screen showing IDLE state — dark background with position name DSL">
+          <div class="screenshot-grid-caption idle">Idle — waiting for a cue</div>
+        </div>
+        <div class="screenshot-grid-item">
+          <img src="img-listener-standby.png" alt="Listener screen showing STANDBY state — red background flashing, READY? button">
+          <div class="screenshot-grid-caption standby">Standby — screen flashes red, READY? appears</div>
+        </div>
+        <div class="screenshot-grid-item">
+          <img src="img-listener-ready.png" alt="Listener screen showing confirmed ready state — steady red with Ready! text">
+          <div class="screenshot-grid-caption ready">Confirmed — steady red, "Ready! ✅"</div>
+        </div>
+        <div class="screenshot-grid-item">
+          <img src="img-listener-go.png" alt="Listener screen showing GO state — full green screen">
+          <div class="screenshot-grid-caption go">GO — full screen green</div>
+        </div>
+      </div>
+
+      <div class="arrow-wrap"><div class="arrow-line"><span class="arr-dot"></span><span class="arr-shaft"></span><span class="arr-head"></span></div><div class="annotation"><strong>READY? button:</strong> appears during STANDBY with a distinctive blue glowing border. The performer taps it to confirm they're in position. The screen stops flashing and goes steady — the DSM sees "READY ✓" on the master card.</div></div>
+      <div class="arrow-wrap"><div class="arrow-line"><span class="arr-dot"></span><span class="arr-shaft"></span><span class="arr-head"></span></div><div class="annotation"><strong>Flashing:</strong> during STANDBY the screen alternates between the state colour and black at a 0.95-second cycle — visible even with peripheral vision in a bright wing.</div></div>
+      <div class="arrow-wrap"><div class="arrow-line"><span class="arr-dot"></span><span class="arr-shaft"></span><span class="arr-head"></span></div><div class="annotation"><strong>MASTER button (top centre):</strong> takes you to the PIN screen if you need to switch to Master control.</div></div>
+      <div class="arrow-wrap"><div class="arrow-line"><span class="arr-dot"></span><span class="arr-shaft"></span><span class="arr-head"></span></div><div class="annotation"><strong>Listening as / position selector (bottom):</strong> shows which position this device is assigned to. Tap to change.</div></div>
+
+      <div class="callout info">
+        <span class="callout-label">For Performers</span>
+        Three things: open the URL, pick your position, keep your screen awake. That's it. Screen goes red and flashes — you're on standby. Tap READY when you're in place. Wait for green.
+      </div>
+    </section>
+
+    <!-- MONITOR VIEW -->
+    <section class="doc-section" id="monitor">
+      <div class="section-label">11 — Monitor View</div>
+      <h2>The Monitor View</h2>
+      <div class="prose">
+        <p>The Monitor view is a <strong>read-only status board</strong> showing all channels at a glance. No controls — just a clear picture of who is in what state. Perfect for a second screen at the prompt desk, or for a QLab operator who needs situational awareness without firing cues.</p>
+      </div>
+
+      <div class="screenshot-wrap">
+        <span class="screenshot-label">MONITOR VIEW</span>
+        <img src="img-monitor.png" alt="Monitor view showing all four channels with their current states and listener counts">
+      </div>
+
+      <div class="arrow-wrap"><div class="arrow-line"><span class="arr-dot"></span><span class="arr-shaft"></span><span class="arr-head"></span></div><div class="annotation"><strong>MONITOR tab</strong> (top right, outlined): active view indicator. Click MASTER or LISTENER from here to switch views.</div></div>
+      <div class="arrow-wrap"><div class="arrow-line"><span class="arr-dot"></span><span class="arr-shaft"></span><span class="arr-head"></span></div><div class="annotation"><strong>Channel cards:</strong> show the channel name, current state in large text, group assignment, and listener count. Cards flash during STANDBY.</div></div>
+      <div class="arrow-wrap"><div class="arrow-line"><span class="arr-dot"></span><span class="arr-shaft"></span><span class="arr-head"></span></div><div class="annotation"><strong>● 1 LISTENER / ● NO LISTENER:</strong> tells you at a glance whether a performer is connected to each position.</div></div>
+
+      <h4>How to Open</h4>
+      <div class="prose">
+        <p>Click the <strong>Monitor</strong> button in the STBY server app — it opens in your default browser automatically. Or navigate directly to: <code>http://[server-ip]:3000?page=monitor</code></p>
+      </div>
+    </section>
+
+    <!-- MOBILE DISCOVERY -->
+    <section class="doc-section" id="mobile-discovery">
+      <div class="section-label">12 — Mobile App</div>
+      <h2>Mobile App — Finding the Server</h2>
+      <div class="prose">
+        <p>The STBY mobile app (iOS &amp; Android) includes automatic server discovery — it scans your local network and finds the STBY server without you needing to type an IP address.</p>
+        <p>If automatic discovery finds a server, tap it to connect. If discovery doesn't work on your venue's network, use the manual IP entry at the bottom of the screen — type the address shown in the STBY server app.</p>
+        <p>The app remembers the last server it connected to, so from the second night of a run you can connect with a single tap.</p>
+      </div>
+      <div class="callout info">
+        <span class="callout-label">Discovery Not Working?</span>
+        Some venue Wi-Fi networks block mDNS (the discovery protocol). If the app can't find the server automatically, use manual IP entry. Both devices must be on the same network — check that your Mac and phone are on the same Wi-Fi SSID.
+      </div>
+    </section>
+
+    <!-- MOBILE ROLE -->
+    <section class="doc-section" id="mobile-role">
+      <div class="section-label">13 — Mobile App</div>
+      <h2>Mobile App — PIN &amp; Role</h2>
+      <div class="prose">
+        <p>After connecting, the app asks which role you're taking — <strong>Listener</strong> (no PIN, goes straight to the fullscreen display) or <strong>Master</strong> (requires the PIN). The app remembers your choice between sessions.</p>
+      </div>
+
+      <div class="screenshot-portrait">
+        <img src="img-pin.png" alt="PIN screen showing the STBY logo, four empty PIN dots, and a 3x4 number keypad">
+      </div>
+
+      <div class="arrow-wrap"><div class="arrow-line"><span class="arr-dot"></span><span class="arr-shaft"></span><span class="arr-head"></span></div><div class="annotation"><strong>Four PIN dots:</strong> fill as you tap the keypad. The PIN is set in the server app's Settings tab.</div></div>
+      <div class="arrow-wrap"><div class="arrow-line"><span class="arr-dot"></span><span class="arr-shaft"></span><span class="arr-head"></span></div><div class="annotation"><strong>Enter Cuelight / Listener Mode:</strong> if someone accidentally arrives at the PIN screen, this button skips to Listener without needing the PIN.</div></div>
+    </section>
+
+    <!-- STANDBY FLOW -->
+    <section class="doc-section" id="standby-flow">
+      <div class="section-label">14 — Reference</div>
+      <h2>The Full Standby Flow</h2>
+      <div class="prose">
+        <p>Here's exactly what happens, step by step, when a DSM calls a cue:</p>
+      </div>
+      <ol class="steps">
+        <li><span class="step-num">1</span><div class="step-body"><strong>DSM taps STANDBY on a channel</strong><span>The channel card border turns red. A STANDBY message is sent to all connected listeners on that channel.</span></div></li>
+        <li><span class="step-num">2</span><div class="step-body"><strong>Performer's screen flashes red</strong><span>The listener screen alternates between red and black at a 0.95-second interval — unmissable even in a bright wing.</span></div></li>
+        <li><span class="step-num">3</span><div class="step-body"><strong>Performer taps READY?</strong><span>The blue-glowing READY? button appears. The performer taps it to confirm they're in position.</span></div></li>
+        <li><span class="step-num">4</span><div class="step-body"><strong>Master card updates to READY ✓</strong><span>The card header turns green. The performer's screen stops flashing and shows "Ready! ✅" on a steady red background.</span></div></li>
+        <li><span class="step-num">5</span><div class="step-body"><strong>DSM taps GO</strong><span>The performer's screen turns solid green. They go. The channel stays green until the DSM taps CLR.</span></div></li>
+      </ol>
+      <div class="callout go">
+        <span class="callout-label">Note</span>
+        The READY? confirmation is optional. The DSM can fire GO at any time regardless of whether the performer has confirmed. The confirmation is there to give the DSM confidence, not to gate the cue.
+      </div>
+    </section>
+
+    <!-- PIN -->
+    <section class="doc-section" id="pin">
+      <div class="section-label">15 — Reference</div>
+      <h2>PIN &amp; Access Control</h2>
+      <div class="prose">
+        <p>The PIN protects the Master view. Only people who know the PIN can control cue lights. Listeners do <strong>not</strong> need the PIN — they go straight to their screen.</p>
+        <p>Set the PIN in the <strong>⚙ Settings</strong> tab of the server app. The PIN is automatically sent to any Master device that connects — you don't configure it on each device separately.</p>
+      </div>
+      <div class="callout">
+        <span class="callout-label">Forgot the PIN?</span>
+        The PIN is always visible in the Settings tab of the server app on the Mac.
+      </div>
+    </section>
+
+    <!-- TROUBLESHOOTING -->
+    <section class="doc-section" id="troubleshooting">
+      <div class="section-label">16 — Troubleshooting</div>
+      <h2>Troubleshooting</h2>
+
+      <h3>Device can't connect</h3>
+      <div class="prose">
+        <p><strong>Check all devices are on the same Wi-Fi network.</strong> The Mac and every connecting device must be on the same network — same SSID, not split between 2.4GHz and 5GHz.</p>
+        <p><strong>Check the full URL.</strong> Type the address including <code>http://</code> and the <code>:3000</code> port — e.g. <code>http://192.168.1.50:3000</code>. Leaving either out will fail.</p>
+        <p><strong>Check the Mac's firewall.</strong> Go to System Settings → Network → Firewall. If it's on, either disable it or add STBY to the allowed apps list.</p>
+      </div>
+
+      <h3>Listener screen isn't responding to cues</h3>
+      <div class="prose">
+        <p><strong>Check the card header colour.</strong> Grey means no listener is connected on that channel — check the performer's device and position selection.</p>
+        <p><strong>Reload the page.</strong> Pull down to refresh in the browser. STBY reconnects automatically within a few seconds.</p>
+        <p><strong>Check the server log.</strong> The log shows every connection event. Look for the listener connecting and cue messages being received.</p>
+      </div>
+
+      <h3>OSC messages from QLab not working</h3>
+      <div class="prose">
+        <p><strong>Check the IP and port.</strong> QLab needs to send to your Mac's IP (shown in the STBY app) on port 9001, UDP not TCP.</p>
+        <p><strong>Check the OSC address format.</strong> Must match exactly — <code>/stby/ch1/standby</code> — lowercase, correct channel number.</p>
+        <p><strong>Check the OSC port in STBY.</strong> The port is shown in the footer of the server window. It defaults to 9001 but can be changed in Settings.</p>
+      </div>
+
+      <h3>Screen keeps going black (auto-lock)</h3>
+      <div class="prose">
+        <p>The browser version can't prevent auto-lock. On iPhone/iPad go to <strong>Settings → Display &amp; Brightness → Auto-Lock</strong> and set it to Never for the show. The STBY mobile app handles this automatically.</p>
+      </div>
+
+      <h3>Mac says "unverified developer" on first open</h3>
+      <div class="prose">
+        <p>Right-click (or Control-click) the STBY app and choose <strong>Open</strong> from the menu. Click Open in the dialog. You only need to do this once.</p>
+      </div>
+
+      <div class="callout info">
+        <span class="callout-label">Still stuck?</span>
+        Email <a href="mailto:hello@getstby.app" style="color:var(--confirm)">hello@getstby.app</a> with a description of the problem and a copy of the server log. We'll get back to you as soon as possible.
+      </div>
+    </section>
+
+  </div>
+</div>
+
+<script>
+const sections = document.querySelectorAll('.doc-section');
+const navLinks = document.querySelectorAll('.nav-link');
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      navLinks.forEach(l => l.classList.remove('active'));
+      const link = document.querySelector(`.nav-link[href="#${entry.target.id}"]`);
+      if (link) link.classList.add('active');
+    }
+  });
+}, { rootMargin: '-20% 0px -70% 0px' });
+sections.forEach(s => observer.observe(s));
+navLinks.forEach(link => {
+  link.addEventListener('click', () => document.getElementById('sidebar').classList.remove('open'));
+});
+</script>
+</body>
+</html>
