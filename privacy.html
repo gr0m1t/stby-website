@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Privacy Policy — STBY Show Control</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@300;400;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:        #0a0a0a;
+      --panel:     #111111;
+      --border:    #2a2a2a;
+      --text:      #e0e0e0;
+      --dim:       #666;
+      --accent:    #ff6b00;
+      --go:        #00e040;
+      --mono:      'Share Tech Mono', monospace;
+      --sans:      'Barlow Condensed', sans-serif;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--sans);
+      font-size: 18px;
+      font-weight: 300;
+      line-height: 1.7;
+      min-height: 100vh;
+    }
+
+    /* ── Header ── */
+    header {
+      border-bottom: 1px solid var(--border);
+      padding: 28px 40px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+    }
+
+    .logo {
+      font-family: var(--mono);
+      font-size: 22px;
+      color: var(--accent);
+      text-decoration: none;
+      letter-spacing: 0.05em;
+    }
+
+    .logo span {
+      color: var(--dim);
+      font-size: 13px;
+      margin-left: 12px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+    }
+
+    .back-link {
+      font-family: var(--mono);
+      font-size: 13px;
+      color: var(--dim);
+      text-decoration: none;
+      letter-spacing: 0.1em;
+      transition: color 0.2s;
+    }
+    .back-link:hover { color: var(--accent); }
+
+    /* ── Main layout ── */
+    main {
+      max-width: 760px;
+      margin: 0 auto;
+      padding: 64px 40px 100px;
+    }
+
+    /* ── Page title ── */
+    .page-title {
+      font-family: var(--mono);
+      font-size: 11px;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 16px;
+    }
+
+    h1 {
+      font-family: var(--sans);
+      font-size: 52px;
+      font-weight: 700;
+      line-height: 1.05;
+      letter-spacing: -0.01em;
+      color: #fff;
+      margin-bottom: 12px;
+    }
+
+    .meta {
+      font-family: var(--mono);
+      font-size: 13px;
+      color: var(--dim);
+      letter-spacing: 0.08em;
+      margin-bottom: 56px;
+      padding-bottom: 40px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    /* ── Summary block ── */
+    .summary {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-left: 3px solid var(--go);
+      border-radius: 4px;
+      padding: 24px 28px;
+      margin-bottom: 56px;
+    }
+
+    .summary-label {
+      font-family: var(--mono);
+      font-size: 11px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--go);
+      margin-bottom: 12px;
+    }
+
+    .summary p {
+      font-size: 19px;
+      font-weight: 400;
+      color: var(--text);
+      line-height: 1.6;
+    }
+
+    /* ── Sections ── */
+    section {
+      margin-bottom: 52px;
+    }
+
+    h2 {
+      font-family: var(--sans);
+      font-size: 26px;
+      font-weight: 600;
+      letter-spacing: 0.02em;
+      color: #fff;
+      margin-bottom: 16px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    p {
+      margin-bottom: 16px;
+      color: #c8c8c8;
+    }
+
+    p:last-child { margin-bottom: 0; }
+
+    ul {
+      list-style: none;
+      margin: 16px 0;
+      padding: 0;
+    }
+
+    ul li {
+      padding: 8px 0 8px 20px;
+      color: #c8c8c8;
+      border-bottom: 1px solid #1a1a1a;
+      position: relative;
+    }
+
+    ul li::before {
+      content: '—';
+      position: absolute;
+      left: 0;
+      color: var(--accent);
+      font-family: var(--mono);
+    }
+
+    ul li:last-child { border-bottom: none; }
+
+    /* ── Contact block ── */
+    .contact-block {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 28px;
+      margin-top: 20px;
+    }
+
+    .contact-block a {
+      font-family: var(--mono);
+      font-size: 16px;
+      color: var(--accent);
+      text-decoration: none;
+      letter-spacing: 0.05em;
+    }
+
+    .contact-block a:hover {
+      text-decoration: underline;
+    }
+
+    /* ── Footer ── */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 32px 40px;
+      text-align: center;
+    }
+
+    footer p {
+      font-family: var(--mono);
+      font-size: 12px;
+      color: var(--dim);
+      letter-spacing: 0.1em;
+      margin: 0;
+    }
+
+    footer a {
+      color: var(--dim);
+      text-decoration: none;
+    }
+
+    footer a:hover { color: var(--accent); }
+
+    /* ── Responsive ── */
+    @media (max-width: 600px) {
+      header { padding: 20px 24px; }
+      main { padding: 44px 24px 80px; }
+      h1 { font-size: 38px; }
+      footer { padding: 28px 24px; }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <a class="logo" href="/">STBY<span>Show Control</span></a>
+    <a class="back-link" href="/">← getstby.app</a>
+  </header>
+
+  <main>
+    <p class="page-title">Legal</p>
+    <h1>Privacy Policy</h1>
+    <p class="meta">Effective date: 26 May 2026 &nbsp;·&nbsp; Version 1.0</p>
+
+    <div class="summary">
+      <p class="summary-label">Plain English Summary</p>
+      <p>STBY does not collect, store, or transmit any personal data. It runs entirely on your local network. Nothing leaves your venue.</p>
+    </div>
+
+    <section>
+      <h2>About STBY</h2>
+      <p>STBY Show Control ("STBY", "we", "our") is a professional cue light system for live theatre and events. It is developed and maintained by a sole trader based in the United Kingdom.</p>
+      <p>STBY comprises a macOS desktop server application, a browser-based web client, and an iOS/Android mobile application. All components are designed to operate entirely within a local area network (LAN).</p>
+    </section>
+
+    <section>
+      <h2>Data We Do Not Collect</h2>
+      <p>STBY does not collect any personal data. Specifically:</p>
+      <ul>
+        <li>No user accounts or registration are required</li>
+        <li>No analytics, telemetry, or usage tracking of any kind</li>
+        <li>No crash reporting or error logging sent to external servers</li>
+        <li>No advertising identifiers or tracking cookies</li>
+        <li>No location data</li>
+        <li>No names, email addresses, or contact information</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>How STBY Works</h2>
+      <p>The STBY server application runs on a Mac within your venue's local network. Client devices — iPads, phones, laptops — connect directly to that server over Wi-Fi or ethernet. All communication between devices is local and never routed through the internet or any external server.</p>
+      <p>No STBY data is transmitted to us or to any third party at any point during normal operation.</p>
+    </section>
+
+    <section>
+      <h2>Local Storage</h2>
+      <p>STBY stores a small amount of configuration data locally on your devices:</p>
+      <ul>
+        <li>The STBY server app stores your channel configuration, group setup, and PIN locally on the host Mac</li>
+        <li>The mobile app stores the last connected server IP address on your device using standard platform storage (AsyncStorage on iOS/Android)</li>
+      </ul>
+      <p>This data never leaves your devices and is not accessible to us.</p>
+    </section>
+
+    <section>
+      <h2>Purchases</h2>
+      <p>STBY licences are sold through third-party platforms. Any payment or personal data collected during a purchase is governed by that platform's own privacy policy — not this one. We receive only confirmation that a valid licence has been purchased; we do not receive your payment details.</p>
+    </section>
+
+    <section>
+      <h2>Support Contact</h2>
+      <p>If you contact us for support, any information you share (such as your email address or a description of your issue) is used solely to respond to your query. We do not store it in any database or use it for marketing.</p>
+      <div class="contact-block">
+        <a href="mailto:hello@getstby.app">hello@getstby.app</a>
+      </div>
+    </section>
+
+    <section>
+      <h2>Children</h2>
+      <p>STBY is a professional production tool intended for use by adults in a theatrical or events context. It is not directed at children, and we do not knowingly collect information from anyone under the age of 13.</p>
+    </section>
+
+    <section>
+      <h2>Changes to This Policy</h2>
+      <p>If this policy changes in a meaningful way — for example, if a future version of STBY adds optional crash reporting — we will update this page and revise the effective date above. We will not introduce data collection without making it clearly optional.</p>
+    </section>
+
+    <section>
+      <h2>Contact</h2>
+      <p>Questions about this policy are welcome.</p>
+      <div class="contact-block">
+        <a href="mailto:hello@getstby.app">hello@getstby.app</a>
+      </div>
+    </section>
+
+  </main>
+
+  <footer>
+    <p>© 2026 STBY Show Control &nbsp;·&nbsp; <a href="/">getstby.app</a></p>
+  </footer>
+
+</body>
+</html>
